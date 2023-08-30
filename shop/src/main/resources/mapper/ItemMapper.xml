@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vadimli.mapper.ItemMapper">
+    <resultMap id="BaseResultMap" type="com.vadimli.domain.Item">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="market_price" property="marketPrice" jdbcType="DOUBLE"/>
+        <result column="shop_price" property="shopPrice" jdbcType="DOUBLE"/>
+        <result column="num" property="num" jdbcType="INTEGER"/>
+        <result column="image" property="image" jdbcType="VARCHAR"/>
+        <result column="idesc" property="idesc" jdbcType="VARCHAR"/>
+        <result column="iflag" property="iflag" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="updated" property="updated" jdbcType="TIMESTAMP"/>
+        <result column="cid" property="cid" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from item
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.vadimli.domain.Item">
+        insert into item (id, name, market_price,
+                          shop_price, num, image,
+                          idesc, iflag, status,
+                          created, updated, cid)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{marketPrice,jdbcType=DOUBLE},
+                #{shopPrice,jdbcType=DOUBLE}, #{num,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR},
+                #{idesc,jdbcType=VARCHAR}, #{iflag,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
+                #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{cid,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.vadimli.domain.Item">
+        update item
+        set name         = #{name,jdbcType=VARCHAR},
+            market_price = #{marketPrice,jdbcType=DOUBLE},
+            shop_price   = #{shopPrice,jdbcType=DOUBLE},
+            num          = #{num,jdbcType=INTEGER},
+            image        = #{image,jdbcType=VARCHAR},
+            idesc        = #{idesc,jdbcType=VARCHAR},
+            iflag        = #{iflag,jdbcType=TINYINT},
+            status       = #{status,jdbcType=TINYINT},
+            created      = #{created,jdbcType=TIMESTAMP},
+            updated      = #{updated,jdbcType=TIMESTAMP},
+            cid          = #{cid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id,
+               name,
+               market_price,
+               shop_price,
+               num,
+               image,
+               idesc,
+               iflag,
+               status,
+               created,
+               updated,
+               cid
+        from item
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               name,
+               market_price,
+               shop_price,
+               num,
+               image,
+               idesc,
+               iflag,
+               status,
+               created,
+               updated,
+               cid
+        from item
+    </select>
+    <!--根据iflag 查询 热门 和优惠商品 -->
+    <select id="selectByIflag" resultMap="BaseResultMap" parameterType="int">
+        SELECT id,
+               name,
+               market_price,
+               shop_price,
+               num,
+               image,
+               idesc,
+               iflag,
+               status,
+               created,
+               updated,
+               cid
+        FROM item
+        WHERE iflag = #{iflag}
+          AND STATUS = 1
+        ORDER BY created DESC LIMIT 6;
+    </select>
+
+    <!-- 根据商品分类id查询商品 -->
+    <select id="selectByCid" resultMap="BaseResultMap" parameterType="int">
+        SELECT id, NAME, market_price, shop_price, num, image, idesc, iflag, STATUS, created,
+               updated, cid
+        FROM item WHERE cid= #{cid} AND STATUS =1
+    </select>
+
+    <!--List<Item> getItemByLike(@Param("mohu") String mohu);-->
+    <select id="getItemByLike" resultType="com.vadimli.domain.Item">
+        select * from item where name like '%${mohu}%'
+    </select>
+
+    <!--List<Item> getItemByUser(int uid);-->
+    <select id="getItemByUser" resultMap="allItemAndUserResultMap">
+        SELECT * FROM item
+        INNER JOIN cart
+        ON item.id = cart.id
+        WHERE cart.uid = #{uid}
+    </select>
+    <resultMap id="allItemAndUserResultMap" type="com.vadimli.domain.Item">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="market_price" property="marketPrice" jdbcType="DOUBLE"/>
+        <result column="shop_price" property="shopPrice" jdbcType="DOUBLE"/>
+        <result column="num" property="num" jdbcType="INTEGER"/>
+        <result column="image" property="image" jdbcType="VARCHAR"/>
+        <result column="idesc" property="idesc" jdbcType="VARCHAR"/>
+        <result column="iflag" property="iflag" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="updated" property="updated" jdbcType="TIMESTAMP"/>
+        <result column="cid" property="cid" jdbcType="INTEGER"/>
+        <collection property="cart" ofType="com.vadimli.domain.Cart">
+            <id column="cartId" property="cartId"></id>
+            <result column="uid" property="uid"></result>
+            <result column="id" property="id"></result>
+            <result column="count" property="count"></result>
+        </collection>
+    </resultMap>
+</mapper>

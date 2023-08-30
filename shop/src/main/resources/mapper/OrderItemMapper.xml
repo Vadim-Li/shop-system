@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vadimli.mapper.OrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.vadimli.domain.OrderItem" >
+    <id column="itemid" property="itemid" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="subtotal" property="subtotal" jdbcType="DOUBLE" />
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="oid" property="oid" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from order_item
+    where itemid = #{itemid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.vadimli.domain.OrderItem" >
+    insert into order_item (itemid, count, subtotal, 
+      id, oid)
+    values (#{itemid,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{subtotal,jdbcType=DOUBLE}, 
+      #{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.vadimli.domain.OrderItem" >
+    update order_item
+    set count = #{count,jdbcType=INTEGER},
+      subtotal = #{subtotal,jdbcType=DOUBLE},
+      id = #{id,jdbcType=INTEGER},
+      oid = #{oid,jdbcType=VARCHAR}
+    where itemid = #{itemid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select itemid, count, subtotal, id, oid
+    from order_item
+    where itemid = #{itemid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select itemid, count, subtotal, id, oid
+    from order_item
+  </select>
+</mapper>

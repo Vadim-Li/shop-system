@@ -1,0 +1,16 @@
+export const VERIFY_USER = "verify_user";
+export const GET_USER="get_user";
+export const LOGIN_FAILURE="login_failure";
+export const ISFIRST="isFirst";
+export const NOFIRST="noFirst";
+export const GET_CATEGORY="get_category";
+export const GET_PAGE="get_page";
+export const GET_ITEM="get_item";
+export const GET_ITEMDETAIL="get_itemDetail";
+export const GET_ITEMCAT="get_itemCat";
+export const GET_ITEMCATDETAIL="get_itemCatDetail";
+export const SEARCH_ITEM = "search_item";
+export const GET_ITEMBYLIKE="get_itemByLike";
+export const LOADING="loading";
+export const LOADED="loaded";
+export const ISERROR="isError";
