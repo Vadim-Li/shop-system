@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vadimli.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.vadimli.domain.User" >
+    <id column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where uid = #{uid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertUser" parameterType="com.vadimli.domain.User" >
+    insert into user (uid, username, password, 
+      name, email, telephone,role
+      )
+    values (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.vadimli.domain.User" >
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      role = #{role,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select uid, username, password, name, email, telephone, role
+    from user
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select uid, username, password, name, email, telephone, role
+    from user
+  </select>
+
+  <!--用户登录方法-->
+  <select id="loginUser" resultMap="BaseResultMap" >
+    select uid, username, password, name, email, telephone, role
+    from user where username=#{username} and password =#{password};
+  </select>
+
+  <!--List<User> getUserByLike(@Param("mohu") String mohu);-->
+  <select id="getUserByLike" resultType="com.vadimli.domain.User">
+    select * from user where username like '%${mohu}%'
+  </select>
+
+</mapper>

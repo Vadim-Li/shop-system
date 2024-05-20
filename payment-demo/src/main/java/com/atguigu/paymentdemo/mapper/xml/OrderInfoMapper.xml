@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.paymentdemo.mapper.OrderInfoMapper">
+    <!--List<OrderInfo> getOrderInfoByUser(int uid);-->
+    <!--select * from t_order_info
+        INNER JOIN item
+        ON t_order_info.product_id = item.id
+        where t_order_info.user_id = #{uid}-->
+    <select id="getOrderInfoByUser" resultType="com.atguigu.paymentdemo.entity.OrderInfo">
+        select *
+        from t_order_info
+        where user_id = #{uid}
+    </select>
+    <!--    <resultMap id="allOrderAndItemResultMap" type="com.atguigu.paymentdemo.entity.OrderInfo">-->
+    <!--        <id column="id" property="id" jdbcType="BIGINT"/>-->
+    <!--        <result column="title" property="title" jdbcType="VARCHAR"/>-->
+    <!--        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>-->
+    <!--        <result column="user_id" property="userId" jdbcType="BIGINT"/>-->
+    <!--        <result column="product_id" property="productId" jdbcType="BIGINT"/>-->
+    <!--        <result column="total_fee" property="totalFee" jdbcType="BIGINT"/>-->
+    <!--        <result column="code_url" property="codeUrl" jdbcType="VARCHAR"/>-->
+    <!--        <result column="order_status" property="orderStatus" jdbcType="VARCHAR"/>-->
+    <!--        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>-->
+    <!--        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>-->
+    <!--        <collection property="item" ofType="com.atguigu.paymentdemo.entity.Item">-->
+    <!--            <id column="id" property="id"></id>-->
+    <!--            <result column="name" property="name"></result>-->
+    <!--            <result column="market_price" property="marketPrice"></result>-->
+    <!--            <result column="shop_price" property="shopPrice"></result>-->
+    <!--            <result column="num" property="num"></result>-->
+    <!--            <result column="image" property="image"></result>-->
+    <!--            <result column="idesc" property="idesc"></result>-->
+    <!--            <result column="iflag" property="iflag"></result>-->
+    <!--            <result column="status" property="status"></result>-->
+    <!--            <result column="create_time" property="createTime"></result>-->
+    <!--            <result column="update_time" property="updateTime"></result>-->
+    <!--            <result column="cid" property="cid" />-->
+    <!--        </collection>-->
+    <!--    </resultMap>-->
+
+    <!--int removeOrderInfoById(Long orderId);-->
+    <delete id="removeOrderInfoById">
+        delete
+        from t_order_info
+        where id = #{orderId}
+    </delete>
+</mapper>

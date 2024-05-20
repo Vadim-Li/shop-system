@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vadimli.mapper.ItemCatMapper">
+    <resultMap id="BaseResultMap" type="com.vadimli.domain.ItemCat">
+        <id column="cid" property="cid" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from item_cat
+        where cid = #{cid,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertItemCat" parameterType="com.vadimli.domain.ItemCat">
+        insert into item_cat (cid, name, status, menuClick)
+        values (#{cid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+                #{menuClick,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.vadimli.domain.ItemCat">
+        update item_cat
+        set name      = #{name,jdbcType=VARCHAR},
+            status    = #{status,jdbcType=INTEGER},
+            menuClick = #{menuClick,jdbcType=VARCHAR}
+        where cid = #{cid,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select cid, name, status, menuClick
+        from item_cat
+        where cid = #{cid,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select cid, name, status, menuClick
+        from item_cat
+    </select>
+
+    <select id="selectAllByStatus" resultMap="BaseResultMap" parameterType="int">
+        select cid, name, status, menuClick
+        from item_cat
+        where status = #{status}
+    </select>
+
+    <!--List<ItemCat> getItemCatByLike(@Param("mohu") String mohu);-->
+    <select id="getItemCatByLike" resultType="com.vadimli.domain.ItemCat">
+        select *
+        from item_cat
+        where name like '%${mohu}%'
+    </select>
+</mapper>
